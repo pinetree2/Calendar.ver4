@@ -1,29 +1,41 @@
 package com.example.calendarviewexample;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
+
 
 import static com.example.calendarviewexample.CalendarUtils.daysInMonthArray;
 import static com.example.calendarviewexample.CalendarUtils.monthYearFromDate;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
+
+    DatePickerDialog.OnDateSetListener setListener;
     MediaPlayer mediaPlayer;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
+    private long backBtnTime = 0;
+    private DrawerLayout drawerLayout;
+    private View drawerView;
+
 
 
     @Override
@@ -31,16 +43,49 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mediaPlayer = MediaPlayer.create(this, R.raw.bgm);
         mediaPlayer.setLooping(true); //무한재생
         mediaPlayer.start();
+        setContentView(R.layout.activity_main);
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
 
-    }
 
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerView = (View)findViewById(R.id.drawer);
+        drawerLayout.setDrawerListener(listener);
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+
+    }
+    //기능 추가 가능
+    DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+        @Override
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+        }
+
+        @Override
+        public void onDrawerOpened(@NonNull  View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerClosed(@NonNull View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+
+        }
+    };
 
 
     private void initWidgets()
@@ -92,6 +137,22 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     protected void onDestroy() {
         super.onDestroy();
         mediaPlayer.stop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        long curTime = System.currentTimeMillis();
+        long gapTime = curTime - backBtnTime;
+
+        if(0<=gapTime && 2000 >=gapTime){
+            super.onBackPressed();
+        }else{
+            backBtnTime = curTime;
+            Toast.makeText(this,"한번더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show();
+       }
+    }
+
+    private class onDateSetListener {
     }
 }
 

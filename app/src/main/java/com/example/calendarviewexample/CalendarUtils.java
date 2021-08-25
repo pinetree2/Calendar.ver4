@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-//날짜 바뀔 수 있게 해주는거
+//현재 날짜와 시간
 public class CalendarUtils {
 
     public static LocalDate selectedDate;
