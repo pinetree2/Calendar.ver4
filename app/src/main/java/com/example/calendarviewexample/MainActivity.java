@@ -17,6 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.calendarviewexample.decorators.EventDecorator;
 import com.example.calendarviewexample.decorators.MySelectorDecorator;
+import com.example.calendarviewexample.decorators.OneDayDecorator;
+import com.example.calendarviewexample.decorators.SaturdayDecorator;
+import com.example.calendarviewexample.decorators.SundayDecorator;
 import com.google.android.material.datepicker.MaterialCalendar;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -54,11 +57,17 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
+        OneDayDecorator oneDayDecorator = new OneDayDecorator();
 
 
+        MaterialCalendarView materialCalendarView = findViewById(R.id.calendarView);
+        materialCalendarView.setSelectedDate(CalendarDay.today());
 
-        MaterialCalendarView calendarView  = findViewById(R.id.calendarRecyclerView);
-        MaterialCalendarView.addDecorators(
+        MaterialCalendarView calendarView  = findViewById(R.id.calendarView);
+        materialCalendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator(),
+                oneDayDecorator,
                 new MySelectorDecorator(this)
         );
         calendarView.setSelectedDate(CalendarDay.today());
