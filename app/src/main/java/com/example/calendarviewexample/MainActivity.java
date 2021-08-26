@@ -1,6 +1,7 @@
 package com.example.calendarviewexample;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -14,8 +15,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.calendarviewexample.decorators.EventDecorator;
+import com.example.calendarviewexample.decorators.MySelectorDecorator;
+import com.google.android.material.datepicker.MaterialCalendar;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.example.calendarviewexample.CalendarUtils.daysInMonthArray;
 import static com.example.calendarviewexample.CalendarUtils.monthYearFromDate;
@@ -48,6 +56,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setMonthView();
 
 
+
+        MaterialCalendarView calendarView  = findViewById(R.id.calendarRecyclerView);
+        MaterialCalendarView.addDecorators(
+                new MySelectorDecorator(this)
+        );
+        calendarView.setSelectedDate(CalendarDay.today());
+        calendarView.addDecorator(new EventDecorator(Color.RED, Collections.singleton(CalendarDay.today())));
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         drawerView = (View)findViewById(R.id.drawer);
         drawerLayout.setDrawerListener(listener);
@@ -56,10 +71,14 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
+
+
         });
 
 
+
     }
+
     //기능 추가 가능
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
         @Override
@@ -82,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
         }
     };
+
 
 
     private void initWidgets()
