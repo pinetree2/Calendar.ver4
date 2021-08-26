@@ -1,34 +1,30 @@
 package com.example.calendarviewexample;
 
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
-
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.time.LocalDate;
-
 import java.util.ArrayList;
-
 
 import static com.example.calendarviewexample.CalendarUtils.daysInMonthArray;
 import static com.example.calendarviewexample.CalendarUtils.monthYearFromDate;
 
+
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
 
-    DatePickerDialog.OnDateSetListener setListener;
+
     MediaPlayer mediaPlayer;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
